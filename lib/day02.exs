@@ -1,3 +1,18 @@
+defmodule Day02 do
+  # First puzzle
+  def apply_instr({"forward", n}, {x, y}), do: {x + n, y}
+  def apply_instr({"down", n}, {x, y}), do: {x, y + n}
+  def apply_instr({"up", n}, {x, y}), do: {x, y - n}
+
+  # Second puzzle
+  def apply_instr({"forward", n}, {x, y, z}), do: {x + n, y + n * z, z}
+  def apply_instr({"down", n}, {x, y, z}), do: {x, y, z + n}
+  def apply_instr({"up", n}, {x, y, z}), do: {x, y, z - n}
+
+  def result({x, y, _}), do: x * y
+  def result({x, y}), do: x * y
+end
+
 commands =
   Util.lines("inputs/day02.txt", :trim)
   |> Enum.map(fn it ->
@@ -6,31 +21,13 @@ commands =
   end)
 
 first =
-  commands
-  |> Enum.reduce({0, 0}, fn it, {fwd, depth} ->
-    case it do
-      {"forward", dist} -> {fwd + dist, depth}
-      {"up", dist} -> {fwd, depth - dist}
-      {"down", dist} -> {fwd, depth + dist}
-    end
-  end)
-  |> then(fn it ->
-    with {fwd, depth} <- it, do: fwd * depth
-  end)
+  Enum.reduce(commands, {0, 0}, &Day02.apply_instr/2)
+  |> Day02.result()
 
 IO.puts("First result: #{first}")
 
 second =
-  commands
-  |> Enum.reduce({0, 0, 0}, fn it, {fwd, depth, aim} ->
-    case it do
-      {"forward", dist} -> {fwd + dist, depth + dist * aim, aim}
-      {"up", amount} -> {fwd, depth, aim - amount}
-      {"down", amount} -> {fwd, depth, aim + amount}
-    end
-  end)
-  |> then(fn it ->
-    with {fwd, depth, _} <- it, do: fwd * depth
-  end)
+  Enum.reduce(commands, {0, 0, 0}, &Day02.apply_instr/2)
+  |> Day02.result()
 
 IO.puts("Second result: #{second}")
