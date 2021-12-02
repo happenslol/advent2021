@@ -3,7 +3,7 @@ count_incs = fn x, {prev, acc} ->
 end
 
 numbers =
-  File.read!("inputs/day01-1.txt")
+  File.read!("inputs/day02.txt")
   |> String.split("\n")
   |> Enum.filter(fn s -> String.trim(s) != "" end)
   |> Enum.map(fn x -> with {n, _} <- Integer.parse(x), do: n end)
