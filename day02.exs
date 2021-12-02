@@ -1,7 +1,5 @@
 commands =
-  File.read!("inputs/day02.txt")
-  |> String.split("\n")
-  |> Enum.filter(fn s -> String.trim(s) != "" end)
+  Util.lines("inputs/day02.txt", :trim)
   |> Enum.map(fn it ->
     [dir, dist] = String.split(it, " ")
     {dir, with({n, _} <- Integer.parse(dist), do: n)}

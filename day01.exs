@@ -1,23 +1,15 @@
-count_incs = fn x, {prev, acc} ->
-  {x, if(prev > 0 && x > prev, do: acc + 1, else: acc)}
-end
+numbers = Util.lines("inputs/day01.txt", :trim) |> Util.parse_ints()
 
-numbers =
-  File.read!("inputs/day02.txt")
-  |> String.split("\n")
-  |> Enum.filter(fn s -> String.trim(s) != "" end)
-  |> Enum.map(fn x -> with {n, _} <- Integer.parse(x), do: n end)
-
-{_, first} =
-  numbers
-  |> Enum.reduce({0, 0}, count_incs)
+first =
+  Enum.chunk_every(numbers, 2, 1, :discard)
+  |> Enum.count(fn [x, y] -> y > x end)
 
 IO.puts("First result: #{first}")
 
-{_, second} =
-  numbers
-  |> Enum.chunk_every(3, 1)
+second =
+  Enum.chunk_every(numbers, 3, 1)
   |> Enum.map(&Enum.sum/1)
-  |> Enum.reduce({0, 0}, count_incs)
+  |> Enum.chunk_every(2, 1, :discard)
+  |> Enum.count(fn [x, y] -> y > x end)
 
 IO.puts("Second result: #{second}")
