@@ -32,7 +32,9 @@ defmodule Day03 do
   end
 end
 
-lines = Util.lines("inputs/day03.txt", :trim)
+lines =
+  File.read!("inputs/day03.txt")
+  |> String.split("\n", trim: true)
 
 gamma_str = Day03.get_crit_str(lines, fn c0, c1 -> if(c1 > c0, do: "1", else: "0") end)
 epsilon_str = Day03.get_crit_str(lines, fn c0, c1 -> if(c0 > c1, do: "1", else: "0") end)

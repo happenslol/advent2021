@@ -1,4 +1,6 @@
-numbers = Util.lines("inputs/day01.txt", :trim) |> Util.parse_ints()
+numbers = File.read!("inputs/day01.txt")
+  |> String.split("\n", trim: true)
+  |> Enum.map(fn n -> Integer.parse(n) |> elem(0) end)
 
 first =
   Enum.chunk_every(numbers, 2, 1, :discard)

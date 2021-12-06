@@ -14,7 +14,8 @@ defmodule Day02 do
 end
 
 commands =
-  Util.lines("inputs/day02.txt", :trim)
+  File.read!("inputs/day02.txt")
+  |> String.split("\n", trim: true)
   |> Enum.map(fn it ->
     [dir, dist] = String.split(it, " ")
     {dir, with({n, _} <- Integer.parse(dist), do: n)}
